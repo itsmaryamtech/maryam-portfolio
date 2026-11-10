@@ -570,57 +570,68 @@ document.querySelectorAll(".reveal").forEach(el=>io?io.observe(el):el.classList.
 
 /* ===== CONTACT FORM (validation + mailto) ===== */
 
+/* ===== CONTACT FORM — n8n WEBHOOK ===== */
 
-/* CONTACT FORM — n8n Webhook */
+const form = $("form");
 
-$("#form").addEventListener("submit", async (e) => {
-  e.preventDefault();
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const n = $("#fn").value.trim();
-  const m = $("#fe").value.trim();
-  const msg = $("#fm").value.trim();
-  const okMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m);
+    const n = $("fn").value.trim();
+    const m = $("fe").value.trim();
+    const msg = $("fm").value.trim();
+    const okMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m);
 
-  $("#e-fn").textContent = n ? "" : "Enter your name.";
-  $("#e-fe").textContent = okMail ? "" : "Enter a valid email address.";
-  $("#e-fm").textContent = msg ? "" : "Write a short message.";
+    $("e-fn").textContent = n ? "" : "Enter your name.";
+    $("e-fe").textContent = okMail ? "" : "Enter a valid email address.";
+    $("e-fm").textContent = msg ? "" : "Write a short message.";
 
-  if (!n || !okMail || !msg) return;
+    if (!n || !okMail || !msg) return;
 
-  const note = $("#formNote");
-  note.textContent = "Sending your message...";
+    const note = $("formNote");
+    const button = form.querySelector('button[type="submit"]');
 
-  const data = new URLSearchParams({
-    name: n,
-    email: m,
-    organisation: $("#fo").value.trim(),
-    topic: $("#ft").value,
-    message: msg,
-    source: "Maryam AI Engineer Portfolio"
-  });
+    note.textContent = "Sending your message...";
+    button.disabled = true;
 
-  try {
-    const response = await fetch(
-      "https://maryamtech.app.n8n.cloud/webhook-test/e6848e0a-b59e-408c-8f63-38e2a998928b",
-      {
-        method: "POST",
-        body: data
+    const data = new URLSearchParams({
+      name: n,
+      email: m,
+      organisation: $("fo").value.trim(),
+      topic: $("ft").value,
+      message: msg,
+      source: "Maryam AI Engineer Portfolio"
+    });
+
+    try {
+      const response = await fetch(
+        "https://maryamtech.app.n8n.cloud/webhook-test/e6848e0a-b59e-408c-8f63-38e2a998928b",
+        {
+          method: "POST",
+          body: data
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Webhook request failed");
       }
-    );
 
-    if (!response.ok) {
-      throw new Error("Submission failed");
+      note.textContent =
+        "Thank you! Your message has been received.";
+
+      form.reset();
+
+    } catch (error) {
+      console.error("Form submission error:", error);
+      note.textContent =
+        "Something went wrong. Please try again.";
+
+    } finally {
+      button.disabled = false;
     }
-
-    note.textContent = "Thank you! Your message has been received.";
-
-    $("#form").reset();
-
-  } catch (error) {
-    console.error(error);
-    note.textContent = "Something went wrong. Please try again.";
-  }
-});
+  });
+}
   
 /* ===== HERO SIGNATURE: ANIMATED NODE GRAPH ===== */
 (function(){
