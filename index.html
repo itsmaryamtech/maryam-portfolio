@@ -202,6 +202,28 @@ footer .fbar{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid rgb
 footer .icon-btn{color:#fff;border-color:rgba(220,230,255,.3)}
 footer .icon-btn:hover{background:var(--cobalt)}
 @media (max-width:860px){.contact{grid-template-columns:1fr}footer .fgrid{grid-template-columns:1fr 1fr}}
+/* ===== CHATBOT ===== */
+.chat-fab{position:fixed;right:1.25rem;bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));z-index:60;width:60px;height:60px;border-radius:50%;border:0;display:grid;place-items:center;background:linear-gradient(135deg,#2457E6,#3F78FF);color:#fff;cursor:pointer;box-shadow:0 14px 30px -10px rgba(36,87,230,.8);transition:transform .2s}
+.chat-fab:hover{transform:scale(1.08)}
+.chatbox{position:fixed;right:1.25rem;bottom:calc(5.5rem + env(safe-area-inset-bottom,0px));z-index:60;width:min(380px,calc(100vw - 2.5rem));height:min(560px,calc(100vh - 8rem));display:flex;flex-direction:column;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:0 30px 60px -20px rgba(16,24,40,.45);overflow:hidden;animation:pop .25s}
+.chat-h{display:flex;align-items:center;gap:.6rem;padding:.8rem 1rem;background:linear-gradient(135deg,#101828,#1B2F66);color:#fff}
+.chat-h b{font:600 1rem var(--head)}
+.chat-h small{display:block;color:#B7C2D8;font-size:.75rem}
+.chat-h .icon-btn{margin-left:auto;color:#fff;border-color:rgba(255,255,255,.3);width:34px;height:34px;font-size:.9rem}
+.chat-log{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.msg{max-width:88%;padding:.6rem .85rem;border-radius:14px;font-size:var(--fs-sm);line-height:1.5}
+.msg.bot{background:var(--accent-soft);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.me{background:var(--cobalt);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg .acts{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.msg .acts .fbtn{padding:.3rem .75rem;font-size:.78rem;background:var(--surface)}
+a.fbtn{text-decoration:none;display:inline-block}
+.chat-q{display:flex;gap:.4rem;overflow-x:auto;padding:.5rem 1rem;border-top:1px solid var(--line)}
+.chat-q .fbtn{white-space:nowrap;padding:.35rem .8rem;font-size:.8rem}
+.chat-f{display:flex;gap:.5rem;padding:.7rem 1rem;border-top:1px solid var(--line)}
+.chat-f input{flex:1;min-width:0}
+.chat-f .btn{padding:.6rem 1rem}
+.chat-foot{font-size:.72rem;color:var(--muted);text-align:center;padding:0 1rem .6rem}
+.chat-foot button{background:none;border:0;color:var(--accent);cursor:pointer;font:inherit;text-decoration:underline}
 </style>
 </head>
 <body>
@@ -282,7 +304,7 @@ footer .icon-btn:hover{background:var(--cobalt)}
 
 <!-- ===== VENTURES ===== -->
 <section id="ventures" aria-labelledby="v-h"><div class="wrap">
-  <h2 id="v-h" class="reveal">Ventures and founder initiatives</h2>
+  <h2 id="v-h" class="reveal">Ventures and business initiatives</h2>
   <p class="lead reveal">Original venture concepts I am developing. They are initiatives in progress, not registered companies or operating businesses.</p>
   <div class="grid" id="ventureGrid"></div>
 </div></section>
@@ -311,7 +333,7 @@ footer .icon-btn:hover{background:var(--cobalt)}
 <!-- ===== EXPERIENCE ===== -->
 <section id="experience" aria-labelledby="e-h"><div class="wrap">
   <h2 id="e-h" class="reveal">Experience and professional journey</h2>
-  <p class="lead reveal">Project-based work and founder initiatives.</p>
+  <p class="lead reveal">Project-based work and venture initiatives.</p>
   <div class="tl" id="timeline"></div>
 </div></section>
 
@@ -368,6 +390,15 @@ footer .icon-btn:hover{background:var(--cobalt)}
   <div class="wrap fbar"><span>© <span id="yr"></span> Maryam. All rights reserved.</span><span>AI Engineer &amp; AI Entrepreneur</span><button class="icon-btn" id="toTop" type="button" aria-label="Back to top">↑</button></div>
 </footer>
 
+<!-- ===== CHATBOT ===== -->
+<button class="chat-fab" id="chatFab" type="button" aria-label="Open chat assistant" aria-expanded="false" aria-controls="chatBox"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></button>
+<section class="chatbox" id="chatBox" hidden aria-label="Chat assistant">
+  <div class="chat-h"><div><b>Maryam’s assistant</b><small>Ask about services, projects and skills</small></div><button class="icon-btn" id="chatX" type="button" aria-label="Close chat">✕</button></div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <div class="chat-q" id="chatQ"></div>
+  <form class="chat-f" id="chatF"><input id="chatIn" aria-label="Type your question" placeholder="Type your question…" autocomplete="off"><button class="btn" type="submit">Send</button></form>
+  <div class="chat-foot">Automated assistant. <button type="button" id="chatMail">Email this chat to Maryam</button></div>
+</section>
 <dialog id="modal" aria-label="Details"><button class="icon-btn mx" aria-label="Close" onclick="closeM()">✕</button><div id="mbody"></div></dialog>
 <script>
 /* ===== CONTENT DATA (edit here, no markup changes needed) ===== */
@@ -552,6 +583,58 @@ function flow(){
 }
 flow();
 
+/* ===== CHATBOT (FAQ assistant: edit KB to change answers) ===== */
+const KB = [
+  {k:["hello","hi","hey","salam","assalam"],a:"Hello! I’m Maryam’s assistant. Ask me about her services, projects, skills or how to get in touch.",x:[]},
+  {k:["who","about","maryam","background","introduce"],a:"Maryam is an AI Engineer and AI Entrepreneur. She builds intelligent products and AI solutions for industry, turning complex business challenges into working technology.",x:[["About Maryam","#about"]]},
+  {k:["service","offer","hire","work with","help","kaam","build","banate","banati"],a:"Maryam offers three services: AI Solution Build, AI Strategy & Process Advisory, and Intelligent Automation Setup.",x:[["See services","#services"]]},
+  {k:["project","portfolio","tpris","cold chain","textile","case study","built"],a:"Her recent projects are TPRIS, a Textile Process & Resource Intelligence System, and an Intelligent Cold Chain Management System. Both address real industrial problems.",x:[["View projects","#projects"]]},
+  {k:["demo","try","prototype","predictive","maintenance","rag"],a:"There are six interactive AI demos you can try: predictive maintenance, industrial intelligence, workflow automation, decision support, a knowledge assistant and a business chatbot.",x:[["Try the demos","#concepts"]]},
+  {k:["skill","tech","stack","python","react","llm","expertise","technology","language"],a:"Maryam works across AI and machine learning (LLMs, agents, RAG, NLP), automation and API integration, and web development with Python, JavaScript, React and Next.js.",x:[["See skills","#skills"]]},
+  {k:["venture","company","startup","business","initiative"],a:"She is developing five venture initiatives: Cortexa Labs, Automata Works, Forma Digital, Pivotal AI and Enterprise Nexus. They are in development, not registered companies.",x:[["Explore ventures","#ventures"]]},
+  {k:["industry","industries","manufacturing","logistics","supply"],a:"Her focus is industrial AI. Recent work covers textile manufacturing and cold chain logistics, and the same approach applies to other operations-heavy industries.",x:[["Industrial projects","#projects"]]},
+  {k:["price","cost","rate","quote","budget","fee","charge"],a:"Pricing depends on scope. Share a few details about your project and Maryam will come back to you with a clear proposal.",x:[["Request a quote",{type:"AI solution build"}]]},
+  {k:["start","process","how long","timeline","steps","discovery"],a:"Projects start with a short discovery conversation to define the problem, the data and the outcome that matters. Then come a prototype, iteration and handover.",x:[["Start a conversation",{type:"Project collaboration"}]]},
+  {k:["available","availability","freelance","full-time","part-time","recruit","job","opening"],a:"For availability, the best step is to message Maryam directly with what you need and your timeline. She will confirm what is possible.",x:[["Check availability",{type:"Project collaboration"}]]},
+  {k:["resume","résumé","cv","experience","references","reference","credentials","qualification","degree"],a:"Maryam’s work is project-based: two recent industrial platforms, six interactive demos and five venture initiatives. For a résumé or references, please ask her directly.",x:[["See her journey","#experience"],["Ask directly",{type:"Other"}]]},
+  {k:["value","benefit","roi","impact","result","outcome","why"],a:"The goal is always business value: clearer visibility, earlier awareness of risk and less manual work. Every project starts from the outcome that matters to you.",x:[["See case studies","#projects"]]},
+  {k:["data","privacy","secure","security","confidential","nda","safe"],a:"Data handling and confidentiality are discussed at the start of every project. For specific requirements such as an NDA, please raise them with Maryam directly.",x:[["Raise a requirement",{type:"Other"}]]},
+  {k:["after delivery","handover","documentation","support","training","maintain"],a:"The AI Solution Build service includes a working application plus handover and documentation. Ongoing support can be discussed when you share your project.",x:[["See services","#services"]]},
+  {k:["partner","partnership","collaborate","collaboration","invest","investor","investment","funding","joint"],a:"Maryam is open to conversations about partnerships and collaboration around her venture initiatives. Tell her what you have in mind.",x:[["Discuss a partnership",{type:"Partnership"}],["Explore ventures","#ventures"]]},
+  {k:["chatbot","assistant","agent","automation","automate","generative","gpt","custom","integrate","integration","api"],a:"Yes. Maryam builds custom chatbots, AI agents, retrieval assistants and workflow automation, and connects them to the tools you already use through APIs.",x:[["Try the demos","#concepts"],["Discuss your idea",{type:"AI solution build"}]]},
+  {k:["my business","my company","my industry","my factory","my team","startup idea","can you help","can you build","do you work"],a:"Possibly. Maryam focuses on industrial and operations-heavy problems and is happy to look at others. Describe your challenge and she will tell you honestly whether she can help.",x:[["Describe your challenge",{type:"Project collaboration"}]]},
+  {k:["thanks","thank","bye","shukriya"],a:"You’re welcome! If you’d like to talk to Maryam directly, the options are below.",x:[["Email",{href:"mailto:"+LINKS.email}],["WhatsApp",{href:LINKS.whatsapp}]]},
+  {k:["contact","email","mail","reach","call","whatsapp","linkedin","rabta","message","talk"],a:"You can reach Maryam by email, WhatsApp or LinkedIn, or use the contact form.",x:[["Email",{href:"mailto:"+LINKS.email}],["WhatsApp",{href:LINKS.whatsapp}],["LinkedIn",{href:LINKS.linkedin}],["Contact form","#contact"]]}
+];
+const clog=$("chatLog"), cbox=$("chatBox"), cfab=$("chatFab"), tr=[];
+const hit=(t,k)=>k.length<=3 ? t.split(/[^a-z]+/).includes(k) : t.includes(k);
+function closeChat(){ cbox.hidden=true; cfab.setAttribute("aria-expanded","false"); }
+function say(t,who,x){
+  const d=document.createElement("div"); d.className="msg "+who; d.textContent=t;
+  if(x&&x.length){ const a=document.createElement("div"); a.className="acts";
+    x.forEach(([l,g])=>{ const link=typeof g==="object"&&g.href; const b=document.createElement(link?"a":"button"); b.className="fbtn"; b.textContent=l;
+      if(link){ b.href=g.href; if(g.href.indexOf("http")===0){ b.target="_blank"; b.rel="noopener"; } }
+      else { b.type="button"; b.onclick=()=>{ closeChat(); typeof g==="string" ? document.querySelector(g).scrollIntoView({behavior:"smooth"}) : toContact(g.type); }; }
+      a.append(b); }); d.append(a); }
+  clog.append(d); clog.scrollTop=clog.scrollHeight; tr.push((who==="me"?"Visitor: ":"Assistant: ")+t);
+}
+function ask(q){
+  say(q,"me"); const t=q.toLowerCase(); let best=null, sc=0;
+  KB.forEach(e=>{ const s=e.k.filter(k=>hit(t,k)).reduce((n,k)=>n+k.length,0); if(s>sc){ sc=s; best=e; } });
+  const d=document.createElement("div"); d.className="msg bot"; d.textContent="…"; clog.append(d); clog.scrollTop=clog.scrollHeight;
+  setTimeout(()=>{ d.remove(); best ? say(best.a,"bot",best.x) : say("I’m not sure about that one, but Maryam can answer it directly.","bot",KB[KB.length-1].x); },550);
+}
+$("chatQ").innerHTML = ["What do you build?","Projects","Skills","Ventures","Pricing","Contact"].map(q=>`<button type="button" class="fbtn">${q}</button>`).join("");
+$("chatQ").onclick = e => { const b=e.target.closest("button"); if(b) ask(b.textContent); };
+cfab.onclick = () => {
+  if(cbox.hidden){ cbox.hidden=false; cfab.setAttribute("aria-expanded","true"); if(!clog.children.length) say("Hi, I’m Maryam’s assistant. What would you like to know?","bot"); $("chatIn").focus(); }
+  else closeChat();
+};
+$("chatX").onclick = () => { closeChat(); cfab.focus(); };
+cbox.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeChat(); cfab.focus(); } });
+$("chatF").onsubmit = e => { e.preventDefault(); const v=$("chatIn").value.trim(); if(!v) return; $("chatIn").value=""; ask(v); };
+$("chatMail").onclick = () => { location.href=`mailto:${LINKS.email}?subject=${encodeURIComponent("Chat from your website")}&body=${encodeURIComponent(tr.join("\n")||"Hello Maryam,")}`; };
+
 /* ===== THEME TOGGLE ===== */
 const root = document.documentElement;
 $("themeBtn").onclick = () => {
@@ -569,70 +652,18 @@ const io = "IntersectionObserver" in window ? new IntersectionObserver(es=>es.fo
 document.querySelectorAll(".reveal").forEach(el=>io?io.observe(el):el.classList.add("in"));
 
 /* ===== CONTACT FORM (validation + mailto) ===== */
+$("form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const n=$("fn").value.trim(), m=$("fe").value.trim(), msg=$("fm").value.trim(), okMail=/^\S+@\S+\.\S+$/.test(m);
+  $("e-fn").textContent = n ? "" : "Enter your name.";
+  $("e-fe").textContent = okMail ? "" : "Enter a valid email address.";
+  $("e-fm").textContent = msg ? "" : "Write a short message.";
+  if(!n || !okMail || !msg) return;
+  const body = `Name: ${n}\nEmail: ${m}\nOrganisation: ${$("fo").value}\nType: ${$("ft").value}\n\n${msg}`;
+  location.href = `mailto:${LINKS.email}?subject=${encodeURIComponent("Inquiry: "+$("ft").value)}&body=${encodeURIComponent(body)}`;
+  $("formNote").textContent = "Your email app should open with the message ready to send.";
+});
 
-/* ===== CONTACT FORM — n8n WEBHOOK ===== */
-
-const form = $("form");
-
-if (form) {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const n = $("fn").value.trim();
-    const m = $("fe").value.trim();
-    const msg = $("fm").value.trim();
-    const okMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m);
-
-    $("e-fn").textContent = n ? "" : "Enter your name.";
-    $("e-fe").textContent = okMail ? "" : "Enter a valid email address.";
-    $("e-fm").textContent = msg ? "" : "Write a short message.";
-
-    if (!n || !okMail || !msg) return;
-
-    const note = $("formNote");
-    const button = form.querySelector('button[type="submit"]');
-
-    note.textContent = "Sending your message...";
-    button.disabled = true;
-
-    const data = new URLSearchParams({
-      name: n,
-      email: m,
-      organisation: $("fo").value.trim(),
-      topic: $("ft").value,
-      message: msg,
-      source: "Maryam AI Engineer Portfolio"
-    });
-
-    try {
-      const response = await fetch(
-        "https://maryamtech.app.n8n.cloud/webhook/e6848e0a-b59e-408c-8f63-38e2a998928b",
-        {
-          method: "POST",
-          body: data
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Webhook request failed");
-      }
-
-      note.textContent =
-        "Thank you! Your message has been received.";
-
-      form.reset();
-
-    } catch (error) {
-      console.error("Form submission error:", error);
-      note.textContent =
-        "Something went wrong. Please try again.";
-
-    } finally {
-      button.disabled = false;
-    }
-  });
-}
-  
 /* ===== HERO SIGNATURE: ANIMATED NODE GRAPH ===== */
 (function(){
   const c=$("net"), x=c.getContext("2d"); if(!x) return;
