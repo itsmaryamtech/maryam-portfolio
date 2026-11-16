@@ -326,8 +326,8 @@ a.fbtn{text-decoration:none;display:inline-block}
 <!-- ===== SERVICES ===== -->
 <section id="services" aria-labelledby="sv-h"><div class="wrap">
   <h2 id="sv-h" class="reveal">Work with me</h2>
-  <p class="lead reveal">Three ways I help businesses turn AI from an idea into something that works.</p>
-  <div class="grid" id="serviceGrid"></div>
+  <p class="lead reveal">From AI systems to websites, applications and games: the full range of what I build, and how I help businesses grow with technology.</p>
+  <div class="filters" id="serviceFilters" role="group" aria-label="Filter services"></div><div class="grid" id="serviceGrid"></div>
 </div></section>
 
 <!-- ===== EXPERIENCE ===== -->
@@ -411,7 +411,7 @@ const LINKS = {
 const SKILLS = [
   {k:"ai",tab:"AI & ML",name:"AI & Machine Learning",items:["Artificial Intelligence","Machine Learning","Generative AI","Large Language Models","AI Agents","Prompt Engineering","Natural Language Processing","Retrieval-Augmented Generation"],build:["Document Q&A assistants grounded in your own data","Agents that use tools and finish multi-step tasks","Text classification and extraction pipelines"]},
   {k:"auto",tab:"Automation",name:"AI Development & Automation",items:["AI-Powered Applications","Intelligent Automation","AI Workflow Design","Business Process Automation","AI Chatbots","API Integration","AI Solution Architecture"],build:["Chatbots connected to business systems through APIs","Automated approval, reporting and data-entry workflows","End-to-end architecture for AI products"]},
-  {k:"sw",tab:"Software",name:"Software & Web Development",items:["Python","JavaScript","HTML5 & CSS3","React","Next.js","Backend Development","Database Design","Responsive Web Development"],build:["Responsive web apps and dashboards","Backend services and databases behind them","Fast, accessible front ends in React and Next.js"]},
+  {k:"sw",tab:"Software",name:"Software & Web Development",items:["Python","JavaScript","HTML5 & CSS3","React","Next.js","Backend Development","Database Design","Responsive Web Development","Application Development","Game Development"],build:["Responsive web apps and dashboards","Backend services and databases behind them","Fast, accessible front ends in React and Next.js"]},
   {k:"biz",tab:"Business",name:"Entrepreneurship & Business",items:["Business Development","Product Strategy","Digital Product Development","Technology Consulting","Business Process Optimization","Strategic Problem Solving","Innovation & Product Thinking"],build:["Product strategy from problem to roadmap","Technology consulting for process improvement","Turning an idea into a working digital product"]}
 ];
 const VENTURES = [
@@ -445,9 +445,22 @@ const DEMOS = [
   {name:"Business AI Chatbot",line:"A customer-facing assistant that answers common questions instantly.",demo:"chat",cat:"Agents"}
 ];
 const SERVICES = [
-  {name:"AI Solution Build",line:"From problem definition to a working AI-powered application.",inc:["Problem and data assessment","Prototype and iteration","Working web application","Handover and documentation"],type:"AI solution build"},
-  {name:"AI Strategy & Process Advisory",line:"A practical roadmap for where AI creates value in your operations.",inc:["Process and opportunity audit","Prioritised use cases","Implementation roadmap","Build-versus-buy guidance"],type:"Advisory"},
-  {name:"Intelligent Automation Setup",line:"Automate repetitive workflows and connect the tools your team already uses.",inc:["Workflow mapping","API integrations","Automated reports and approvals","Testing and training"],type:"Automation"}
+  {name:"AI Solution Build",cat:"AI",line:"From problem definition to a working AI-powered application.",inc:["Problem and data assessment","Prototype and iteration","Working application with handover and documentation"],type:"AI solution build"},
+  {name:"AI Chatbots & Assistants",cat:"AI",line:"Customer-facing and internal assistants that answer questions instantly.",inc:["Conversation design","Integration with your systems","Testing and tuning"],type:"AI solution build"},
+  {name:"AI Agents & Workflow Automation",cat:"AI",line:"Agents that use tools and complete multi-step business tasks.",inc:["Workflow mapping","Tool and API connections","Monitoring and safeguards"],type:"Automation"},
+  {name:"RAG & Knowledge Assistants",cat:"AI",line:"Assistants that answer from your documents and cite the source.",inc:["Document preparation","Retrieval pipeline","Citation-backed answers"],type:"AI solution build"},
+  {name:"Machine Learning & Predictive Systems",cat:"AI",line:"Models that forecast, classify and flag risk from your data.",inc:["Data preparation","Model design and evaluation","Dashboards for results"],type:"AI solution build"},
+  {name:"Generative AI Applications",cat:"AI",line:"Content, summarisation and assistant features built on large language models.",inc:["Prompt engineering","Application design","Quality checks"],type:"AI solution build"},
+  {name:"Web Development",cat:"Software",line:"Fast, responsive, accessible websites that represent your brand.",inc:["Design and build","Responsive layouts","SEO-ready structure"],type:"Web & app development"},
+  {name:"Web Application Development",cat:"Software",line:"Full-stack web apps and dashboards with React and Next.js.",inc:["Front end and backend","Database design","Deployment-ready code"],type:"Web & app development"},
+  {name:"Application Development",cat:"Software",line:"Custom business applications built around how your team works.",inc:["Requirements and design","Build and testing","Handover and documentation"],type:"Web & app development"},
+  {name:"Game Development",cat:"Software",line:"Interactive games and gamified experiences for web and beyond.",inc:["Concept and mechanics","Build and polish","Browser-ready delivery"],type:"Game development"},
+  {name:"API Development & Integration",cat:"Software",line:"Connect the tools and data sources your business already uses.",inc:["API design","Third-party integrations","Documentation"],type:"Web & app development"},
+  {name:"Backend & Database Design",cat:"Software",line:"Reliable data models and services behind your product.",inc:["Schema design","Backend services","Performance review"],type:"Web & app development"},
+  {name:"Business Process Automation",cat:"Business",line:"Remove repetitive manual work from daily operations.",inc:["Process audit","Automated reports and approvals","Training for your team"],type:"Automation"},
+  {name:"AI Strategy & Process Advisory",cat:"Business",line:"A practical roadmap for where AI creates value in your operations.",inc:["Opportunity audit","Prioritised use cases","Implementation roadmap"],type:"Advisory"},
+  {name:"Product Strategy & MVP Development",cat:"Business",line:"Take an idea to a working first version people can test.",inc:["Problem and user definition","MVP scope","Prototype to launch"],type:"Project collaboration"},
+  {name:"Technology Consulting",cat:"Business",line:"Independent guidance on tools, architecture and digital transformation.",inc:["Technology review","Build-versus-buy guidance","Transformation plan"],type:"Advisory"}
 ];
 const NOTES = [
   {name:"Start with the decision, not the model",lead:"Why every industrial AI system should begin with one question.",body:["Every useful industrial AI system begins with a simple question: which decision will this change? If nobody can name the decision, the model ends up as a dashboard nobody opens.","I map the decision first, then the data that informs it, and only then choose the technique. It keeps projects honest and makes the business value easy to explain."]},
@@ -463,7 +476,7 @@ const TIMELINE = [
   {t:"Ongoing",h:"AI engineering practice",d:"Building AI-powered applications, agents and automation with a focus on industrial problems.",pts:["LLM applications and retrieval systems","Intelligent automation and API integration","Continuous product and strategy work"]}
 ];
 const STACK = {"Languages":["Python","JavaScript","HTML5","CSS3"],"Frameworks":["React","Next.js"],"AI":["LLMs","RAG","AI Agents","NLP","Prompt Engineering"],"Backend & Data":["APIs","Backend Development","Database Design"],"Practice":["AI Solution Architecture","Workflow Design","Product Strategy"]};
-const TYPES = ["Project collaboration","AI solution build","Advisory","Automation","Partnership","Other"];
+const TYPES = ["Project collaboration","AI solution build","Web & app development","Game development","Advisory","Automation","Partnership","Other"];
 
 /* ===== HELPERS ===== */
 const $ = id => document.getElementById(id);
@@ -499,7 +512,8 @@ $("projectGrid").innerHTML = PROJECTS.map((p,i)=>{
 }).join("");
 $("conceptGrid").innerHTML = DEMOS.map((c,i)=>`<div class="card reveal" role="button" tabindex="0" data-demo="${i}" data-cat="${c.cat}">${viz(i+2)}<span class="tag">Interactive demo</span><h3>${c.name}</h3><p>${c.line}</p><p class="go">Try the demo ↗</p></div>`).join("");
 filters("demoFilters","conceptGrid",[["All","all"],["ML","ML"],["Agents","Agents"],["RAG","RAG"]]);
-$("serviceGrid").innerHTML = SERVICES.map((v,i)=>`<div class="card reveal"><span class="tag">0${i+1}</span><h3>${v.name}</h3><p>${v.line}</p><ul>${v.inc.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" type="button" data-svc="${i}">Discuss this service</button></div>`).join("");
+$("serviceGrid").innerHTML = SERVICES.map((v,i)=>`<div class="card reveal" data-cat="${v.cat}"><span class="tag">${String(i+1).padStart(2,"0")}</span><h3>${v.name}</h3><p>${v.line}</p><ul>${v.inc.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" type="button" data-svc="${i}">Discuss this service</button></div>`).join("");
+filters("serviceFilters","serviceGrid",[["All","all"],["AI","AI"],["Software","Software"],["Business","Business"]]);
 $("timeline").innerHTML = TIMELINE.map(x=>`<article class="reveal"><small>${x.t}</small><h3>${x.h}</h3><p>${x.d}</p><ul>${x.pts.map(p=>`<li>${p}</li>`).join("")}</ul></article>`).join("");
 $("stackGrid").innerHTML = Object.entries(STACK).map(([k,v])=>`<div class="card reveal"><h3>${k}</h3>${chips(v)}</div>`).join("");
 $("noteGrid").innerHTML = NOTES.map((n,i)=>`<div class="card reveal" role="button" tabindex="0" data-note="${i}"><span class="tag">Note</span><h3>${n.name}</h3><p>${n.lead}</p><p class="go">Read note ↗</p></div>`).join("");
@@ -587,7 +601,7 @@ flow();
 const KB = [
   {k:["hello","hi","hey","salam","assalam"],a:"Hello! I’m Maryam’s assistant. Ask me about her services, projects, skills or how to get in touch.",x:[]},
   {k:["who","about","maryam","background","introduce"],a:"Maryam is an AI Engineer and AI Entrepreneur. She builds intelligent products and AI solutions for industry, turning complex business challenges into working technology.",x:[["About Maryam","#about"]]},
-  {k:["service","offer","hire","work with","help","kaam","build","banate","banati"],a:"Maryam offers three services: AI Solution Build, AI Strategy & Process Advisory, and Intelligent Automation Setup.",x:[["See services","#services"]]},
+  {k:["service","offer","hire","work with","help","kaam","build","banate","banati","web","website","app","game","development","develop","mobile"],a:"Maryam offers AI solutions (chatbots, agents, RAG assistants, machine learning), web, application and game development, API and backend work, process automation, and technology consulting.",x:[["See services","#services"]]},
   {k:["project","portfolio","tpris","cold chain","textile","case study","built"],a:"Her recent projects are TPRIS, a Textile Process & Resource Intelligence System, and an Intelligent Cold Chain Management System. Both address real industrial problems.",x:[["View projects","#projects"]]},
   {k:["demo","try","prototype","predictive","maintenance","rag"],a:"There are six interactive AI demos you can try: predictive maintenance, industrial intelligence, workflow automation, decision support, a knowledge assistant and a business chatbot.",x:[["Try the demos","#concepts"]]},
   {k:["skill","tech","stack","python","react","llm","expertise","technology","language"],a:"Maryam works across AI and machine learning (LLMs, agents, RAG, NLP), automation and API integration, and web development with Python, JavaScript, React and Next.js.",x:[["See skills","#skills"]]},
